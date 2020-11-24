@@ -6,63 +6,112 @@ const numbers = document.querySelectorAll('.number');
 let selectedOperator = '';
 
 
+// Keyboard support
+const body = document.body;
+body.addEventListener('keydown', (event) => {
+
+    switch (!(isNaN(event.key)) || event.key) {
+        case (true):
+            valueEvent(event.key);
+            break;
+        case ('+'):
+        case ('-'):
+        case ('/'):
+        case ('*'):
+            operatorEvent(event.key);
+            break;
+        case ('Enter'):
+            enterEvent();
+            break;
+        case ('C'):
+        case ('c'):
+            clearEvent();
+            break;
+        case ('Backspace'):
+            backspaceEvent();
+            break;
+        case ('.'):
+        case (','):
+            dotEvent();
+            break;
+    }
+    console.log(event.key);
+
+
+});
+
+
 // Number functionality
 numbers.forEach((number) => {
     number.addEventListener('click', () => {
-        if (selectedOperator) {
-            secondNum += number.value;
-            updateDisplay(secondNum);
-            console.log(secondNum);
-        } else {
-            firstNum += number.value;
-            updateDisplay(firstNum);
-            console.log(firstNum);
-        }
-
+        valueEvent(number.value);
     });
 });
+
+function valueEvent(number) {
+    if (selectedOperator) {
+        secondNum += number;
+        updateDisplay(secondNum);
+    } else {
+        firstNum += number;
+        updateDisplay(firstNum);
+    }
+}
 
 // Adds operation functionality to the calculator buttons
 operators.forEach((operator) => {
     operator.addEventListener('click', () => {
-        if (selectedOperator) {
-            let result = operate(selectedOperator, firstNum, secondNum);
-            updateDisplay(result, true);
-
-            selectedOperator = operator.id;
-            console.log(operator.id);
-        }
-        else {
-            selectedOperator = operator.id;
-            updateDisplay(operator.value)
-            console.log(operator.id);
-        }
-
+        operatorEvent(operator.value);
     });
 });
+
+function operatorEvent(operation) {
+    if (selectedOperator) {
+        let result = operate(selectedOperator, firstNum, secondNum);
+        updateDisplay(result, true);
+
+        selectedOperator = operation;
+    }
+    else {
+        selectedOperator = operation;
+        updateDisplay(operation)
+    }
+}
 
 // Enter key functionality
 const enter = document.getElementById('enter');
 enter.addEventListener('click', () => {
+    enterEvent();
+});
+
+function enterEvent() {
     if (selectedOperator) {
         let result = operate(selectedOperator, firstNum, secondNum);
         updateDisplay(result, true);
     }
-})
+}
 
 // Clear button funcionalitty
 // clears all of the calculator memory
 const clear = document.getElementById('clear');
 clear.addEventListener('click', () => {
+    clearEvent();
+})
+
+function clearEvent() {
     firstNum = '';
     secondNum = '';
     selectedOperator = '';
     updateDisplay(firstNum);
-})
+}
 
 // Delete last number
 const backspace = document.getElementById('backspace')
 backspace.addEventListener('click', () => {
+    backspaceEvent();
+});
+
+function backspaceEvent() {
     if (selectedOperator) {
         secondNum = deleteOne(secondNum);
         updateDisplay(secondNum);
@@ -70,19 +119,23 @@ backspace.addEventListener('click', () => {
         firstNum = deleteOne(firstNum);
         updateDisplay(firstNum);
     }
-});
+}
 
 const dot = document.getElementById('dot');
 dot.addEventListener('click', () => {
-    if((!firstNum.includes(dot.value)) && (!selectedOperator)) {
-        firstNum += dot.value;
+    dotEvent();
+});
+
+function dotEvent() {
+    if((!firstNum.includes('.')) && (!selectedOperator)) {
+        firstNum += '.';
         updateDisplay(firstNum.padStart(2, '0'));
     }
-    else if ((secondNum) && (!secondNum.includes(dot.value))) {
-        secondNum += dot.value;
+    else if ((secondNum) && (!secondNum.includes('.'))) {
+        secondNum += '.';
         updateDisplay(secondNum);
     }
-});
+}
 
 // Function to delete the last number
 function deleteOne(num) {
@@ -152,8 +205,8 @@ function operate(operator, a, b) {
     if (!b) b = a;
     a = +a;
     b = +b;
-    if (operator == 'add') return add(a, b);
-    else if (operator == 'subtract') return subtract(a, b);
-    else if (operator == 'multiply') return multiply(a, b);
-    else if (operator == 'divide') return divide(a, b);
+    if (operator == '+') return add(a, b);
+    else if (operator == '-') return subtract(a, b);
+    else if (operator == '*') return multiply(a, b);
+    else if (operator == '/') return divide(a, b);
 }

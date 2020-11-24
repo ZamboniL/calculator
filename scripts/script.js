@@ -93,19 +93,43 @@ function deleteOne(num) {
 function updateDisplay(number, isResult) {
     string = number.toString();
     const display = document.getElementById('calculator-display')
-    display.innerText = string;
-    if (!string) {
-        display.innerText = 0;
-    }
+
+    string = formatNumber(string);
+
     if (isResult) {
         if (string % 1 != 0) {
-            display.innerText = string.substring(0, string.indexOf('.') + 8);
+            string = string.substring(0, string.indexOf('.') + 8);
         }
-        firstNum = string;
+        firstNum = number;
         secondNum = '';
     }
+    display.innerText = string;
 }
 
+// Format the display number to desired formats
+// like: 1.000324e+5
+// if Infinite display as '∞'
+function formatNumber(string) {
+    
+    if (string.length > 12 && !(string.includes('e'))) {
+        return string[0] + '.' + string.substring(1, 6) +
+                 'e+' + (string.length - 8);
+    }
+    else if (string.includes('e')) {
+        return string[0] + '.' + string.substring(2, 6) +
+                 string.substring(string.length - 5);
+    }
+    
+    if (!string) {
+        string = '0';
+    }
+
+    if (string == Infinity) {
+        string = '∞';
+    }
+
+    return string;
+}
 // Calc Functions
 
 function add(a, b) {

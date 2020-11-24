@@ -12,6 +12,7 @@ body {
     grid-column: 2 / 3;
     display: grid;
     grid-template: 0.02fr 0.5fr 0.04fr 1fr 0.02fr / 0.02fr 1fr 0.02fr;
+
 }
 .calculator-frame {
     grid-row: 1 / 6;
@@ -19,6 +20,11 @@ body {
     background-color: #181818;
     border-radius: 20px ;
     z-index: 1;
+    
+    -webkit-box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75), -9px 10px 5px 0px rgba(0,0,0,0.75);;
+    -moz-box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75), -9px 10px 5px 0px rgba(0,0,0,0.75);;
+    box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75), -9px 10px 5px 0px rgba(0,0,0,0.75);;
+
 }
 @import url('https://fonts.googleapis.com/css2?family=Signika:wght@600&display=swap');
 #calculator-display {
@@ -97,3 +103,9 @@ button {
 #zero {grid-area: zero;}
 #clear {grid-area: clear;}
 #backspace {grid-area: backspace;}
+
+@media only screen and (max-width: 600px) {
+    .container {
+        grid-template: 0.05fr 1fr 0.05fr / 0.05fr 1fr 0.05fr; 
+    }
+}

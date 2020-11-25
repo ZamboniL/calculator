@@ -35,9 +35,6 @@ body.addEventListener('keydown', (event) => {
             dotEvent();
             break;
     }
-    console.log(event.key);
-
-
 });
 
 
@@ -69,12 +66,11 @@ function operatorEvent(operation) {
     if (selectedOperator) {
         let result = operate(selectedOperator, firstNum, secondNum);
         updateDisplay(result, true);
-
         selectedOperator = operation;
     }
     else {
         selectedOperator = operation;
-        updateDisplay(operation)
+        updateDisplay(secondNum);
     }
 }
 
@@ -120,14 +116,21 @@ function backspaceEvent() {
         updateDisplay(firstNum);
     }
 }
+// Function to delete the last number
+function deleteOne(num) {
+    str = num.toString()
+    return  str.substring(0, str.length -1);
+}
 
+// Add a dot at the end of the number
 const dot = document.getElementById('dot');
 dot.addEventListener('click', () => {
     dotEvent();
 });
 
 function dotEvent() {
-    if((!firstNum.includes('.')) && (!selectedOperator)) {
+    
+    if((!(firstNum.toString()).includes('.')) && (!selectedOperator)) {
         firstNum += '.';
         updateDisplay(firstNum.padStart(2, '0'));
     }
@@ -137,26 +140,30 @@ function dotEvent() {
     }
 }
 
-// Function to delete the last number
-function deleteOne(num) {
-    return  num.substring(0, num.length -1);
-}
+
 
 // Update the display with the value sent
 function updateDisplay(number, isResult) {
-    string = number.toString();
-    const display = document.getElementById('calculator-display')
+    resultString = number.toString();
+    const resultDisplay = document.getElementById('result-display');
+    const operationDisplay = document.getElementById('operation-display');
 
-    string = formatNumber(string);
+    resultString = formatNumber(resultString);
+    operationString = formatNumber(firstNum);
 
     if (isResult) {
-        if (string % 1 != 0) {
-            string = string.substring(0, string.indexOf('.') + 8);
+        if (resultString % 1 != 0) {
+            resultString = resultString.substring(0, resultString.indexOf('.') + 8);
         }
         firstNum = number;
         secondNum = '';
+        selectedOperator = '';
     }
-    display.innerText = string;
+    operationDisplay.innerText = operationString + ' ' + selectedOperator;
+    if (!selectedOperator) {
+        operationDisplay.innerText = '';
+    }
+    resultDisplay.innerText = resultString;
 }
 
 // Format the display number to desired formats
@@ -166,11 +173,14 @@ function formatNumber(string) {
     
     if (string.length > 12 && !(string.includes('e'))) {
         return string[0] + '.' + string.substring(1, 6) +
-                 'e+' + (string.length - 8);
+                 'e+' + (string.length - 6);
     }
     else if (string.includes('e')) {
+        let scientificNotation = parseInt(string.substring(string.length - 3));
+
         return string[0] + '.' + string.substring(2, 6) +
-                 string.substring(string.length - 5);
+                 string.substring(string.length - 5, string.length - 2) +
+                 (scientificNotation + 10);
     }
     
     if (!string) {

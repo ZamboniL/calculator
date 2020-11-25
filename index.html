@@ -9,9 +9,15 @@
 </head>
 <body>
     <main class="container">
+        <!--Calculator-->
         <div class="calculator">
             <div class="calculator-frame"></div>
-            <div id="calculator-display">0</div>
+            <!--Display-->
+            <div id="calculator-display">
+                <span id="operation-display"></span>
+                <span id="result-display">0</span>
+            </div>
+            <!--Keys-->
             <div class="calculator-keys">
                 <button class="operator top-left" id="add" value="+">+</button>
                 <button class="operator" id="subtract" value="-">-</button>
@@ -24,10 +30,12 @@
                 <button class="number" id="four" value="4">4</button>
                 <button class="number" id="five" value="5">5</button>
                 <button class="number" id="six" value="6">6</button>
-                <button class="special" id="backspace"><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <button class="special" id="backspace">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1" />
-                  </svg></button>
+                    </svg>
+                </button>
                 <button class="number" id="one" value="1">1</button>
                 <button class="number" id="two" value="2">2</button>
                 <button class="number" id="three" value="3">3</button>
